@@ -2,11 +2,13 @@
   "name": "nodejs_project",
   "version": "1.0.0",
   "description": "NodeJS Global Mentoring Program",
-  "main": "index.js",
+  "main": "",
   "scripts": {
     "task1": "nodemon ./task1.js",
-    "task2": "nodemon ./task2.js"
+    "task2": "nodemon ./task2.js",
+    "task3": "nodemon --experimental-modules ./task3.mjs"
   },
+  "type": "module",
   "author": "Alexander Tikhon",
   "repository": {
     "type": "git",
@@ -14,6 +16,10 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/node": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
     "csvtojson": "^2.0.10",
     "nodemon": "^2.0.7",
     "readline": "^1.3.0"
