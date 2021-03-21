@@ -1,0 +1,7 @@
+#IDE intellij
+.idea
+
+#nodejs and client resources
+node_modules
+bower_components
+
