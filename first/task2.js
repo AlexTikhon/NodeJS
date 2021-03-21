@@ -28,6 +28,7 @@ const writeStream = fs.createWriteStream(resFile1Path);
     try {
         const data = await csv().fromFile(csvFilePath);
         writeStream.write(JSON.stringify(data).slice(1, -1));
+        console.log('File has been written and fully loaded into RAM')
     } catch (err){
         console.log(err);
     }
