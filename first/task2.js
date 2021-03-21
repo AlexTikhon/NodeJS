@@ -23,7 +23,7 @@ const writeStream = fs.createWriteStream(resFile1Path);
 // })
 
 
-//      2-st: the file is loaded fully into the RAM
+//      2-nd: the file is loaded fully into the RAM
 (async () => {
     try {
         const data = await csv().fromFile(csvFilePath);
@@ -35,19 +35,19 @@ const writeStream = fs.createWriteStream(resFile1Path);
 })();
 
 
-//      3-rd: the file is not loaded fully in the RAM
+//      1-st: the file is not loaded fully in the RAM
 // const readStream = fs.createReadStream(csvFilePath);
 // const writeStream = fs.createWriteStream('./output/hw1-ex2-output.txt');
 // readStream.pipe(csv()).pipe(writeStream);
 
 
-//      4-th: the file is not loaded fully in the RAM
+//      2-nd: the file is not loaded fully in the RAM
 // const readStream = fs.createReadStream(csvFilePath);
 // const writeStream = fs.createWriteStream('./output/hw1-ex2-output.txt');
 // csv().fromStream(readStream).subscribe().pipe(writeStream);
 
 
-//      5-th: the file is not loaded fully in the RAM
+//      3-rd: the file is not loaded fully in the RAM
 pipeline(
     csv().fromStream(readStream),
     fs.createWriteStream(resFile2Path),
