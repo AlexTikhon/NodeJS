@@ -110,11 +110,6 @@ export const createUser = (req, res) => {
     const userBody = req.body;
     checkRequestBody(userBody, res);
 
-    if (existingUsers.find((u) => { if (u.id === userBody.id) return true })) {
-        updateUser(req, res);
-        return;
-    }
-
     const user = new User(userBody);
     existingUsers.push(user);
     res.status(201).json(user);

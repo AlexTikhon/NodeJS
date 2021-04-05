@@ -12,11 +12,11 @@ router.get(ROUTES.GET_ALL, getAllUsers);
 
 router.get(ROUTES.GET_USER, getUserByID);
 
-router.post(ROUTES.CREATE_USER, createUser);
+router.post(ROUTES.CREATE_USER, validation, createUser);
 
-router.post(ROUTES.UPDATE_USER, validation, updateUser);
+router.put(ROUTES.UPDATE_USER, updateUser);
 
-router.delete(ROUTES.REMOVE_USER, validation, removeUser);
+router.delete(ROUTES.REMOVE_USER, removeUser);
 
 router.get(ROUTES.GET_SUGGESTED_USERS, getAutoSuggestUsers);
 
