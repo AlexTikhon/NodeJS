@@ -1,6 +1,6 @@
 class User {
     constructor(userBody) {
-        this.id = userBody.id || String(Math.floor(Math.random() * 1000));
+        this.id = String(existingUsers.length ? existingUsers.length : 0);
         this.login = userBody.login;
         this.password = userBody.password;
         this.age = Number(userBody.age);
@@ -8,54 +8,54 @@ class User {
     }
 }
 
-const existingUsers = [
+export const existingUsers = [
     {
-        id: '112', login: 'xaq32wea@epam.com', password: 'xxx', age: 30, isDeleted: false
+        id: '0', login: 'xaq32wea@epam.com', password: 'qwe123', age: 30, isDeleted: false
     },
     {
-        id: '123', login: 'bdqb@epam.com', password: 'xxx', age: 25, isDeleted: false
+        id: '1', login: 'bdqb@epam.com', password: 'qwe123', age: 25, isDeleted: false
     },
     {
-        id: '323', login: 'nccs12ad@epam.com', password: 'xxx', age: 20, isDeleted: false
+        id: '2', login: 'nccs12ad@epam.com', password: 'qwe123', age: 20, isDeleted: false
     },
     {
-        id: '444', login: 'adfdsfd@yahoo.com', password: 'xxx', age: 35, isDeleted: false
+        id: '3', login: 'adfdsfd@yahoo.com', password: 'qwe123', age: 35, isDeleted: false
     },
     {
-        id: '52', login: 'eedfdsf@yahoo.com', password: 'xxx', age: 40, isDeleted: false
+        id: '4', login: 'eedfdsf@yahoo.com', password: 'qwe123', age: 40, isDeleted: false
     },
     {
-        id: '523', login: 'qwe@google.com', password: 'xxx', age: 40, isDeleted: false
+        id: '5', login: 'qwe@google.com', password: 'qwe123', age: 40, isDeleted: false
     },
     {
-        id: '524', login: 'cwvs12@google.com', password: 'xxx', age: 40, isDeleted: false
+        id: '6', login: 'cwvs12@google.com', password: 'qwe123', age: 40, isDeleted: false
     },
     {
-        id: '525', login: 'ferga@google.com', password: 'xxx', age: 10, isDeleted: false
+        id: '7', login: 'ferga@google.com', password: 'qwe123', age: 10, isDeleted: false
     },
     {
-        id: '526', login: 'qwdqw12@google.com', password: 'xxx', age: 40, isDeleted: false
+        id: '8', login: 'qwdqw12@google.com', password: 'qwe123', age: 40, isDeleted: false
     },
     {
-        id: '527', login: 'e23edfdewf12dsf@google.com', password: 'xxx', age: 30, isDeleted: false
+        id: '9', login: 'e23edfdewf12dsf@google.com', password: 'qwe123', age: 30, isDeleted: false
     },
     {
-        id: '528', login: 'ponmjdwen@apple.com', password: 'xxx', age: 10, isDeleted: false
+        id: '10', login: 'ponmjdwen@apple.com', password: 'qwe123', age: 10, isDeleted: false
     },
     {
-        id: '529', login: 'iuhndo12@apple.com', password: 'xxx', age: 40, isDeleted: false
+        id: '11', login: 'iuhndo12@apple.com', password: 'qwe123', age: 40, isDeleted: false
     },
     {
-        id: '5', login: 'rwqmd@apple.com', password: 'xxx', age: 20, isDeleted: false
+        id: '12', login: 'rwqmd@apple.com', password: 'qwe123', age: 20, isDeleted: false
     },
     {
-        id: '5902', login: 'ealv@yandex.com', password: 'xxx', age: 40, isDeleted: false
+        id: '13', login: 'ealv@yandex.com', password: 'qwe123', age: 40, isDeleted: false
     },
     {
-        id: '52322', login: 'lasljqlf@yandex.com', password: 'xxx', age: 50, isDeleted: false
+        id: '14', login: 'lasljqlf@yandex.com', password: 'qwe123', age: 50, isDeleted: false
     },
     {
-        id: '422', login: 'jfjje@yandex.com', password: 'xxx', age: 40, isDeleted: false
+        id: '15', login: 'jfjje@yandex.com', password: 'qwe123', age: 40, isDeleted: false
     }
 ];
 
@@ -80,7 +80,13 @@ const compareUsersByLogin = (a, b) => {
 
 export const getAutoSuggestUsers = (req, res) => {
     const { loginSubstring, limit } = req.query;
-    const suggestedUsers = existingUsers.filter((u, i) => i < limit && u.login.includes(loginSubstring) && !u.isDeleted).sort(compareUsersByLogin);
+    const userLogins = existingUsers.filter((u) => u.login.includes(loginSubstring) && !u.isDeleted);
+
+    const suggestedUsers = userLogins.sort(compareUsersByLogin);
+
+    if (suggestedUsers.length > limit) {
+        suggestedUsers.length = limit;
+    }
 
     res.status(200).send(suggestedUsers);
     return suggestedUsers;
