@@ -1,6 +1,6 @@
 class User {
-    constructor (userBody) {
-        this.id = userBody.id || String(Math.floor(Math.random()*1000));
+    constructor(userBody) {
+        this.id = userBody.id || String(Math.floor(Math.random() * 1000));
         this.login = userBody.login;
         this.password = userBody.password;
         this.age = Number(userBody.age);
@@ -9,32 +9,64 @@ class User {
 }
 
 const existingUsers = [
-    {id: '112', login: 'xaq32wea@epam.com', password: 'xxx', age: 30, isDeleted: false},
-    {id: '123', login: 'bdqb@epam.com', password: 'xxx', age: 25, isDeleted: false},
-    {id: '323', login: 'nccs12ad@epam.com', password: 'xxx', age: 20, isDeleted: false},
-    {id: '444', login: 'adfdsfd@yahoo.com', password: 'xxx', age: 35, isDeleted: false},
-    {id: '52', login: 'eedfdsf@yahoo.com', password: 'xxx', age: 40, isDeleted: false},
-    {id: '523', login: 'qwe@google.com', password: 'xxx', age: 40, isDeleted: false},
-    {id: '524', login: 'cwvs12@google.com', password: 'xxx', age: 40, isDeleted: false},
-    {id: '525', login: 'ferga@google.com', password: 'xxx', age: 10, isDeleted: false},
-    {id: '526', login: 'qwdqw12@google.com', password: 'xxx', age: 40, isDeleted: false},
-    {id: '527', login: 'e23edfdewf12dsf@google.com', password: 'xxx', age: 30, isDeleted: false},
-    {id: '528', login: 'ponmjdwen@apple.com', password: 'xxx', age: 10, isDeleted: false},
-    {id: '529', login: 'iuhndo12@apple.com', password: 'xxx', age: 40, isDeleted: false},
-    {id: '5', login: 'rwqmd@apple.com', password: 'xxx', age: 20, isDeleted: false},
-    {id: '5902', login: 'ealv@yandex.com', password: 'xxx', age: 40, isDeleted: false},
-    {id: '52322', login: 'lasljqlf@yandex.com', password: 'xxx', age: 50, isDeleted: false},
-    {id: '422', login: 'jfjje@yandex.com', password: 'xxx', age: 40, isDeleted: false}
+    {
+        id: '112', login: 'xaq32wea@epam.com', password: 'xxx', age: 30, isDeleted: false
+    },
+    {
+        id: '123', login: 'bdqb@epam.com', password: 'xxx', age: 25, isDeleted: false
+    },
+    {
+        id: '323', login: 'nccs12ad@epam.com', password: 'xxx', age: 20, isDeleted: false
+    },
+    {
+        id: '444', login: 'adfdsfd@yahoo.com', password: 'xxx', age: 35, isDeleted: false
+    },
+    {
+        id: '52', login: 'eedfdsf@yahoo.com', password: 'xxx', age: 40, isDeleted: false
+    },
+    {
+        id: '523', login: 'qwe@google.com', password: 'xxx', age: 40, isDeleted: false
+    },
+    {
+        id: '524', login: 'cwvs12@google.com', password: 'xxx', age: 40, isDeleted: false
+    },
+    {
+        id: '525', login: 'ferga@google.com', password: 'xxx', age: 10, isDeleted: false
+    },
+    {
+        id: '526', login: 'qwdqw12@google.com', password: 'xxx', age: 40, isDeleted: false
+    },
+    {
+        id: '527', login: 'e23edfdewf12dsf@google.com', password: 'xxx', age: 30, isDeleted: false
+    },
+    {
+        id: '528', login: 'ponmjdwen@apple.com', password: 'xxx', age: 10, isDeleted: false
+    },
+    {
+        id: '529', login: 'iuhndo12@apple.com', password: 'xxx', age: 40, isDeleted: false
+    },
+    {
+        id: '5', login: 'rwqmd@apple.com', password: 'xxx', age: 20, isDeleted: false
+    },
+    {
+        id: '5902', login: 'ealv@yandex.com', password: 'xxx', age: 40, isDeleted: false
+    },
+    {
+        id: '52322', login: 'lasljqlf@yandex.com', password: 'xxx', age: 50, isDeleted: false
+    },
+    {
+        id: '422', login: 'jfjje@yandex.com', password: 'xxx', age: 40, isDeleted: false
+    }
 ];
 
-const checkRequestBody = (reqBody) => {
-    if(!reqBody) {
+const checkRequestBody = (reqBody, res) => {
+    if (!reqBody) {
         res.status(400).send({
-            message: 'Body can not be empty',
+            message: 'Body can not be empty'
         });
         return;
     }
-}
+};
 
 const compareUsersByLogin = (a, b) => {
     if (a.login.toLowerCase() > b.login.toLowerCase()) {
@@ -44,27 +76,19 @@ const compareUsersByLogin = (a, b) => {
         return -1;
     }
     return 0;
-}
+};
 
-const getAutoSuggestUsers = (loginSubstring, limit) => {
-    if (!loginSubstring && !limit) return existingUsers;
+export const getAutoSuggestUsers = (req, res) => {
+    const { loginSubstring, limit } = req.query;
+    const suggestedUsers = existingUsers.filter((u, i) => i < limit && u.login.includes(loginSubstring) && !u.isDeleted).sort(compareUsersByLogin);
 
-    if (!loginSubstring) return existingUsers.slice(0, limit);
+    res.status(200).send(suggestedUsers);
+    return suggestedUsers;
+};
 
-    const sortedByLogin = existingUsers
-        .filter((u) => u.login.includes(loginSubstring))
-        .sort(compareUsersByLogin)
-
-    if(!limit) {
-        return sortedByLogin;
-    } else {
-        return sortedByLogin.slice(0, limit)
-    }
-}
-
-export const getAllUsers = (req, res) => {
+export const getAllUsers = (_, res) => {
     res.status(200).json(existingUsers);
-}
+};
 
 export const getUserByID = (req, res) => {
     const user = existingUsers.find((u) => {
@@ -72,13 +96,13 @@ export const getUserByID = (req, res) => {
             return u;
         }
     });
-    
+
     return user ? res.status(200).json(user) : res.status(404).send('User not found');
-}
+};
 
 export const createUser = (req, res) => {
     const userBody = req.body;
-    checkRequestBody(userBody);
+    checkRequestBody(userBody, res);
 
     if (existingUsers.find((u) => { if (u.id === userBody.id) return true })) {
         updateUser(req, res);
@@ -86,9 +110,9 @@ export const createUser = (req, res) => {
     }
 
     const user = new User(userBody);
-    existingUsers.push(user)
+    existingUsers.push(user);
     res.status(201).json(user);
-}
+};
 
 export const removeUser = (req, res) => {
     const user = existingUsers.find((u) => {
@@ -99,13 +123,13 @@ export const removeUser = (req, res) => {
     });
 
     return user ? res.status(200).json(user) : res.status(404).send('User not found');
-}
+};
 
 export const updateUser = (req, res) => {
     const userBody = req.body;
-    checkRequestBody(userBody);
+    checkRequestBody(userBody, res);
 
-    if(!userBody.id) {
+    if (!userBody.id) {
         res.status(400).send('Need user.id to update user');
         return;
     }
@@ -124,4 +148,4 @@ export const updateUser = (req, res) => {
     });
 
     return user ? res.status(200).json(userBody) : res.status(404).send('User not found');
-}
+};

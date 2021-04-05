@@ -1,19 +1,22 @@
 import Router from 'express';
-import { getUserByID, createUser, getAllUsers, updateUser, removeUser } from '../controller/server.mjs';
+import { getUserByID, createUser, getAllUsers, updateUser, removeUser, getAutoSuggestUsers } from '../controller/server.mjs';
+import { ROUTES } from './config.mjs';
 const router = Router();
 
-router.get('/', (req, res) => {
-    res.send(`<div><h1>Hi there - check API: go to /api/server/</h1></div>`);
-})
+router.get('/', (_, res) => {
+    res.send('<div><h1>Hi there</h1></div>');
+});
 
-router.get('/api/server', getAllUsers);
+router.get(ROUTES.GET_ALL, getAllUsers);
 
-router.get('/api/server/:id', getUserByID);
+router.get(ROUTES.GET_USER, getUserByID);
 
-router.post('/api/server', createUser);
+router.post(ROUTES.CREATE_USER, createUser);
 
-router.post('/api/server', updateUser);
+router.post(ROUTES.UPDATE_USER, updateUser);
 
-router.delete('/api/server/:id', removeUser);
+router.delete(ROUTES.REMOVE_USER, removeUser);
+
+router.get(ROUTES.GET_SUGGESTED_USERS, getAutoSuggestUsers);
 
 export default router;
