@@ -38,35 +38,8 @@ export const existingUsers = [
     },
     {
         id: '9', login: 'e23edfdewf12dsf@google.com', password: 'qwe123', age: 30, isDeleted: false
-    },
-    {
-        id: '10', login: 'ponmjdwen@apple.com', password: 'qwe123', age: 10, isDeleted: false
-    },
-    {
-        id: '11', login: 'iuhndo12@apple.com', password: 'qwe123', age: 40, isDeleted: false
-    },
-    {
-        id: '12', login: 'rwqmd@apple.com', password: 'qwe123', age: 20, isDeleted: false
-    },
-    {
-        id: '13', login: 'ealv@yandex.com', password: 'qwe123', age: 40, isDeleted: false
-    },
-    {
-        id: '14', login: 'lasljqlf@yandex.com', password: 'qwe123', age: 50, isDeleted: false
-    },
-    {
-        id: '15', login: 'jfjje@yandex.com', password: 'qwe123', age: 40, isDeleted: false
     }
 ];
-
-const checkRequestBody = (reqBody, res) => {
-    if (!reqBody) {
-        res.status(400).send({
-            message: 'Body can not be empty'
-        });
-        return;
-    }
-};
 
 const compareUsersByLogin = (a, b) => {
     if (a.login.toLowerCase() > b.login.toLowerCase()) {
@@ -103,12 +76,18 @@ export const getUserByID = (req, res) => {
         }
     });
 
-    return user ? res.status(200).json(user) : res.status(404).send('User not found');
+    if (user) {
+        res.status(200).json(user);
+    } else {
+        res.status(404).json({
+            type: 'Error',
+            message: `User with id:${req.params.id} not found`
+        });
+    }
 };
 
 export const createUser = (req, res) => {
     const userBody = req.body;
-    checkRequestBody(userBody, res);
 
     const user = new User(userBody);
     existingUsers.push(user);
@@ -123,24 +102,25 @@ export const removeUser = (req, res) => {
         }
     });
 
-    return user ? res.status(200).json(user) : res.status(404).send('User not found');
+    if (user) {
+        res.status(200).json(user);
+    } else {
+        res.status(404).json({
+            type: 'Error',
+            message: `User with id:${req.params.id} not found`
+        });
+    }
 };
 
 export const updateUser = (req, res) => {
     const userBody = req.body;
-    checkRequestBody(userBody, res);
-
-    if (!userBody.id) {
-        res.status(400).send('Need user.id to update user');
-        return;
-    }
 
     const user = existingUsers.find((u, i, arr) => {
-        if (u.id === userBody.id) {
+        if (u.id === userBody.id && !u.isDeleted) {
             userBody.age = (userBody.age) ? Number(userBody.age) : u.age;
             userBody.login = (userBody.login) ? userBody.login : u.login;
             userBody.password = (userBody.password) ? userBody.password : u.password;
-            userBody.isDeleted = (userBody.isDeleted) ? JSON.parse(userBody.isDeleted.toLowerCase()) : u.isDeleted;
+            userBody.isDeleted = u.isDeleted;
 
             arr.splice(i, 1, userBody);
 
@@ -148,5 +128,12 @@ export const updateUser = (req, res) => {
         }
     });
 
-    return user ? res.status(200).json(userBody) : res.status(404).send('User not found');
+    if (user) {
+        res.status(200).json(userBody);
+    } else {
+        res.status(404).json({
+            type: 'Error',
+            message: `User with id:${req.body.id} not found or has been deleted`
+        });
+    }
 };

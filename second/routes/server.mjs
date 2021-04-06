@@ -14,7 +14,7 @@ router.get(ROUTES.GET_USER, getUserByID);
 
 router.post(ROUTES.CREATE_USER, validation, createUser);
 
-router.put(ROUTES.UPDATE_USER, updateUser);
+router.put(ROUTES.UPDATE_USER, validation, updateUser);
 
 router.delete(ROUTES.REMOVE_USER, removeUser);
 
