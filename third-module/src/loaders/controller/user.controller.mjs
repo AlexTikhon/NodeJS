@@ -2,7 +2,7 @@ import { UserModel } from '../../models/user.model.mjs'
 
 class User {
     constructor(userBody) {
-        this.id = String(existingUsers.length ? existingUsers.length : 0);
+        this.id = Math.round(Math.random() * 10000);
         this.login = userBody.login;
         this.password = userBody.password;
         this.age = Number(userBody.age);
@@ -39,13 +39,13 @@ export class UserController {
     
     static async getAllUsers(_, res) {
         const users = await UserModel.findAll();
-        res.status(200).json(existingUsers);
+        res.status(200).json(users);
 
         return users;
     };
     
     static async getUserByID(req, res) {
-        const user = await UserModel.findByPK(req.params.id).then((data) => data);
+        const user = await UserModel.findByPk(req.params.id).then((data) => data);
     
         if (user) {
             res.status(200).json(user);
@@ -61,7 +61,7 @@ export class UserController {
         const userBody = req.body;
         const user = new User(userBody);
 
-        const id = await UserModel.create(user).then(data => data.getDataValue('id'))
+        const id = await UserModel.create(user).then(data => data.id)
 
         res.status(201).json(user);
 
@@ -76,12 +76,12 @@ export class UserController {
             {where: {id: userBody.id}}
         );
     
-        if (user) {
-            res.status(200).json(user);
+        if (removedUser) {
+            res.status(200).json(removedUser);
         } else {
             res.status(404).json({
                 type: 'Error',
-                message: `User with id:${req.params.id} not found`
+                message: `User with id:${userBody.id} not found`
             });
         }
 
@@ -96,12 +96,12 @@ export class UserController {
             {where: {id: userBody.id}}
         );
     
-        if (user) {
-            res.status(200).json(userBody);
+        if (updatedUser) {
+            res.status(200).json(updatedUser);
         } else {
             res.status(404).json({
                 type: 'Error',
-                message: `User with id:${req.body.id} not found or has been deleted`
+                message: `User with id:${userBody} not found or has been deleted`
             });
         }
 

@@ -3,6 +3,6 @@ export const ROUTES = {
     GET_USER: '/get-user/:id',
     CREATE_USER: '/create-user',
     UPDATE_USER: '/update-user',
-    REMOVE_USER: '/remove-user/:id',
+    REMOVE_USER: '/remove-user',
     GET_SUGGESTED_USERS: '/get-suggested-users'
 };

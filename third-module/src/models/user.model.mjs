@@ -43,18 +43,21 @@ export async function initDB() {
 
   const mockedUsers = [
     {
+      id: 100,
       login: 'qwdq@q.com',
       password: 'password1',
       age: 25,
       isDeleted: false
     },
     {
+      id: 101,
       login: 'fqmw@ewr.com',
       password: 'password2',
       age: 30,
       isDeleted: false
     },
     {
+      id: 102,
       login: 'wemfk@ef.com',
       password: 'password3',
       age: 20,
