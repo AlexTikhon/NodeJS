@@ -24,7 +24,7 @@ export default function () {
       type: Sequelize.DataTypes.INTEGER,
       allowNull: false,
     },
-    isdeleted: {
+    deleted: {
       type: Sequelize.DataTypes.BOOLEAN,
       defaultValue: false,
     },
@@ -47,22 +47,22 @@ export async function initDB() {
       login: 'qwdq@q.com',
       password: 'password1',
       age: 25,
-      isDeleted: false
+      deleted: false
     },
     {
       id: 101,
       login: 'fqmw@ewr.com',
       password: 'password2',
       age: 30,
-      isDeleted: false
+      deleted: false
     },
     {
       id: 102,
       login: 'wemfk@ef.com',
       password: 'password3',
       age: 20,
-      isDeleted: false
+      deleted: false
     },
   ];
-  mockedUsers.forEach(async (value) => await UserModel.create(value));
+  await UserModel.bulkCreate(mockedUsers);
 }

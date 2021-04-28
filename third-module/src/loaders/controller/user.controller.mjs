@@ -1,14 +1,5 @@
-import { UserModel } from '../../models/user.model.mjs'
-
-class User {
-    constructor(userBody) {
-        this.id = Math.round(Math.random() * 10000);
-        this.login = userBody.login;
-        this.password = userBody.password;
-        this.age = Number(userBody.age);
-        this.isDeleted = false;
-    }
-}
+import { UserModel } from '../../models/user.model.mjs';
+import { User } from '../../service/user.service.mjs';
 
 const compareUsersByLogin = (a, b) => {
     if (a.login.toLowerCase() > b.login.toLowerCase()) {
@@ -24,7 +15,10 @@ export class UserController {
     static async getAutoSuggestUsers(req, res) {
         const { loginSubstring, limit } = req.query;
         const userLogins = await UserModel.findAll().then((data) => {
-            data.filter((u) => u.login.includes(loginSubstring) && !u.isDeleted);
+            const matches = data.filter((u) => {
+                return u.login.includes(loginSubstring) && !u.deleted;
+            });
+            return matches;
         });
     
         const suggestedUsers = userLogins.sort(compareUsersByLogin);
@@ -72,7 +66,7 @@ export class UserController {
         const userBody = req.body;
 
         const removedUser = await UserModel.update(
-            {isDeleted: true},
+            {deleted: true},
             {where: {id: userBody.id}}
         );
     

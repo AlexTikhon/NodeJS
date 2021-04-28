@@ -1,30 +1,26 @@
 import Joi from 'joi';
 import validator from 'express-joi-validation';
-
-export const validateLogin = (userLogin) => {
-    const isUserExist = existingUsers.find((u) => u.login === userLogin);
-    if (isUserExist) {
-        throw new Error(`user ${userLogin} already exists`);
-    }
-    return userLogin;
-};
-
-export const validateRequest = (err, _, res, next) => {
-    if (err && err.error && err.error.isJoi) {
-        res.status(400).json({
-            type: 'Error',
-            message: err.error.toString()
+class ValidationClass {
+    constructor () {
+        this.schema = Joi.object({
+            id: Joi.string(),
+            login: Joi.string().required(),
+            password: Joi.string().regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{0,}$/).required(),
+            age: Joi.number().min(4).max(130).required()
         });
-    } else {
-        next();
+        this.validation = validator.createValidator({ passError: true }).body(this.schema);
     }
-};
 
-const schema = Joi.object({
-    id: Joi.string(),
-    login: Joi.string().required().custom(validateLogin),
-    password: Joi.string().regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{0,}$/).required(),
-    age: Joi.number().min(4).max(130).required()
-});
+    validateRequest(err, _, res, next) {
+        if (err && err.error && err.error.isJoi) {
+            res.status(400).json({
+                type: 'Error',
+                message: err.error.toString()
+            });
+        } else {
+            next();
+        }
+    };
+}
 
-export const validation = validator.createValidator({ passError: true }).body(schema);
+export const validatorEntity = new ValidationClass();
