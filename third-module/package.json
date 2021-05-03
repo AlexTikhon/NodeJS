@@ -1,0 +1,35 @@
+{
+  "name": "nodejs_project",
+  "version": "1.0.0",
+  "description": "NodeJS Global Mentoring Program",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "nodemon --experimental-modules src/app.mjs",
+    "lint": "eslint --ext .mjs src/controller/ src/routes/ src/app.mjs"
+  },
+  "type": "module",
+  "author": "Alexander Tikhon",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlexTikhon/NodeJS/"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/node": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.23.0",
+    "express": "^4.17.1",
+    "express-joi-validation": "^5.0.0",
+    "joi": "^17.4.0",
+    "mariadb": "^2.5.3",
+    "mysql2": "^2.2.5",
+    "nodemon": "^2.0.7",
+    "pg": "^8.6.0",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.6.2",
+    "sqlite3": "^5.0.2"
+  }
+}
