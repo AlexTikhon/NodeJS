@@ -1,8 +1,23 @@
 import { UserService } from '../../service/user.service.mjs';
+
+const compareUsersByLogin = (a, b) => {
+    if (a.login.toLowerCase() > b.login.toLowerCase()) {
+        return 1;
+    }
+    if (a.login.toLowerCase() < b.login.toLowerCase()) {
+        return -1;
+    }
+    return 0;
+};
 export class UserController {
     static async getAutoSuggestUsers(req, res) {
         const { loginSubstring, limit } = req.query;
-        const suggestedUsers = await UserService.getAutoSuggestUsers(loginSubstring, limit);
+        const userLogins = await UserService.getAutoSuggestUsers(loginSubstring);
+
+        const suggestedUsers = userLogins.sort(compareUsersByLogin);
+        if (suggestedUsers.length > limit) {
+            suggestedUsers.length = limit;
+        }
     
         res.status(200).send(suggestedUsers);
         return suggestedUsers;
