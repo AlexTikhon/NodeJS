@@ -1,45 +1,22 @@
-import { UserModel } from '../../models/user.model.mjs';
-import { User } from '../../service/user.service.mjs';
-
-const compareUsersByLogin = (a, b) => {
-    if (a.login.toLowerCase() > b.login.toLowerCase()) {
-        return 1;
-    }
-    if (a.login.toLowerCase() < b.login.toLowerCase()) {
-        return -1;
-    }
-    return 0;
-};
-
+import { UserService } from '../../service/user.service.mjs';
 export class UserController {
     static async getAutoSuggestUsers(req, res) {
         const { loginSubstring, limit } = req.query;
-        const userLogins = await UserModel.findAll().then((data) => {
-            const matches = data.filter((u) => {
-                return u.login.includes(loginSubstring) && !u.deleted;
-            });
-            return matches;
-        });
-    
-        const suggestedUsers = userLogins.sort(compareUsersByLogin);
-    
-        if (suggestedUsers.length > limit) {
-            suggestedUsers.length = limit;
-        }
+        const suggestedUsers = await UserService.getAutoSuggestUsers(loginSubstring, limit);
     
         res.status(200).send(suggestedUsers);
         return suggestedUsers;
     };
     
     static async getAllUsers(_, res) {
-        const users = await UserModel.findAll();
-        res.status(200).json(users);
+        const users = await UserService.getAllUsers();
 
+        res.status(200).json(users);
         return users;
     };
     
     static async getUserByID(req, res) {
-        const user = await UserModel.findByPk(req.params.id).then((data) => data);
+        const user = await UserService.getUserByID(req);
     
         if (user) {
             res.status(200).json(user);
@@ -52,53 +29,36 @@ export class UserController {
     };
     
     static async createUser(req, res) {
-        const userBody = req.body;
-        const user = new User(userBody);
-
-        const id = await UserModel.create(user).then(data => data.id)
+        const user = await UserService.createUser(req);
 
         res.status(201).json(user);
-
-        return id;
+        return user;
     };
     
     static async removeUser(req, res) {
-        const userBody = req.body;
-
-        const removedUser = await UserModel.update(
-            {deleted: true},
-            {where: {id: userBody.id}}
-        );
+        const removedUser = await UserService.removeUser(req);
     
-        if (removedUser) {
-            res.status(200).json(removedUser);
+        if (removedUser[0]) {
+            res.status(200).json('Done');
         } else {
             res.status(404).json({
                 type: 'Error',
-                message: `User with id:${userBody.id} not found`
+                message: `User with id:${req.body.id} not found`
             });
         }
-
         return removedUser;
     };
     
     static async updateUser(req, res) {
-        const userBody = req.body;
-
-        const updatedUser = await UserModel.update(
-            {...userBody},
-            {where: {id: userBody.id}}
-        );
+        const updatedUser = await UserService.updateUser(req);
     
-        if (updatedUser) {
-            res.status(200).json(updatedUser);
+        if (updatedUser[0]) {
+            res.status(200).json('Done');
         } else {
             res.status(404).json({
                 type: 'Error',
-                message: `User with id:${userBody} not found or has been deleted`
+                message: `User with id:${req.body.id} not found`
             });
         }
-
-        return updatedUser;
     };
 }

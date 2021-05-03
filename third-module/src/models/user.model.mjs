@@ -35,6 +35,7 @@ export default function () {
   })
 }
 
+// initialize DB with mocked users, if there are no users
 export async function initDB() {
   const users = await UserModel.findAll();
   if (users.length) {
