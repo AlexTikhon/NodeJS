@@ -29,20 +29,21 @@ export class UserService {
     };
 
     static async removeUser(req) {
-        const userBody = req.body;
+        const userId = req.params.id;
 
         return await UserModel.update(
             {deleted: true},
-            {where: {id: userBody.id}}
+            {where: {id: userId}}
         );
     };
 
     static async updateUser(req) {
         const userBody = req.body;
+        const userId = req.params.id;
 
         return await UserModel.update(
             {...userBody},
-            {where: {id: userBody.id}}
+            {where: {id: userId}}
         );
     };
 }

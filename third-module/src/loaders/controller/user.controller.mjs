@@ -58,7 +58,7 @@ export class UserController {
         } else {
             res.status(404).json({
                 type: 'Error',
-                message: `User with id:${req.body.id} not found`
+                message: `User with id:${req.params.id} not found`
             });
         }
         return removedUser;
@@ -72,7 +72,7 @@ export class UserController {
         } else {
             res.status(404).json({
                 type: 'Error',
-                message: `User with id:${req.body.id} not found`
+                message: `User with id:${req.params.id} not found`
             });
         }
     };

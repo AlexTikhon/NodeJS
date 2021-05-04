@@ -9,7 +9,6 @@ export default function () {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
       unique: true,
-      autoIncrement: true,
       allowNull: false,
     },
     login: {
@@ -64,6 +63,20 @@ export async function initDB() {
       age: 20,
       deleted: false
     },
+    {
+      id: 103,
+      login: 'kljwemfk@ef.com',
+      password: 'password4',
+      age: 20,
+      deleted: false
+    },
+    {
+      id: 104,
+      login: 'wemsadfk@ef.com',
+      password: 'password5',
+      age: 20,
+      deleted: false
+    }
   ];
   await UserModel.bulkCreate(mockedUsers);
 }
