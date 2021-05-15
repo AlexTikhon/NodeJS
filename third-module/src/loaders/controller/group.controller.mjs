@@ -29,9 +29,9 @@ export class GroupController {
   }
 
   static async removeGroup(req, res) {
-    const removedGroup = await GroupService.removeGroup(req);
+    const isRemoved = await GroupService.removeGroup(req);
 
-    if (removedGroup[0]) {
+    if (isRemoved) {
       res.status(200).json("Done");
     } else {
       res.status(404).json({
@@ -39,7 +39,6 @@ export class GroupController {
         message: `Group with id:${req.params.id} not found`,
       });
     }
-    return removedGroup;
   }
 
   static async updateGroup(req, res) {

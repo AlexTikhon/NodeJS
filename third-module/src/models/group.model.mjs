@@ -24,7 +24,7 @@ export default function () {
     {
       sequelize,
       modelName: "Group",
-      tableName: "Groups",
+      tableName: "groups",
     }
   );
 }

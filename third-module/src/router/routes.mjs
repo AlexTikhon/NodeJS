@@ -1,6 +1,6 @@
 import express from "express";
 
-import { USER_ROUTES } from "../config/routes.config.mjs";
+import { USER_ROUTES, GROUP_ROUTES } from "../config/routes.config.mjs";
 import { validatorEntity } from "../validation/user.validation.mjs";
 import { UserController } from "../loaders/controller/user.controller.mjs";
 import { GroupController } from "../loaders/controller/group.controller.mjs";
