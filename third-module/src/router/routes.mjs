@@ -29,7 +29,11 @@ router.put(
   UserController.updateUser
 );
 
-router.delete(USER_ROUTES.REMOVE_USER, UserController.removeUser);
+router.delete(
+  USER_ROUTES.REMOVE_USER,
+  UserController.removeUser,
+  GroupController.removeUserFromGroup
+);
 
 router.get(USER_ROUTES.GET_SUGGESTED_USERS, UserController.getAutoSuggestUsers);
 
@@ -40,6 +44,8 @@ router.get(GROUP_ROUTES.GET_ALL, GroupController.getAllGroups);
 router.get(GROUP_ROUTES.GET_GROUP, GroupController.getGroupByID);
 
 router.post(GROUP_ROUTES.CREATE_GROUP, GroupController.createGroup);
+
+router.post(GROUP_ROUTES.ADD_USER_TO_GROUP, GroupController.addUserToGroup);
 
 router.put(GROUP_ROUTES.UPDATE_GROUP, GroupController.updateGroup);
 

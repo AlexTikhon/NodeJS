@@ -11,6 +11,7 @@ export const GROUP_ROUTES = {
   GET_ALL: "/get-groups",
   GET_GROUP: "/get-group/:id",
   CREATE_GROUP: "/create-group",
+  ADD_USER_TO_GROUP: "/add-user-to-group/:id",
   UPDATE_GROUP: "/update-group/:id",
   REMOVE_GROUP: "/remove-group/:id",
 };

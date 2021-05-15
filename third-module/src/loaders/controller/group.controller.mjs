@@ -28,8 +28,27 @@ export class GroupController {
     return group;
   }
 
+  static async addUserToGroup(req, res) {
+    const result = await GroupService.addUserToGroup(req);
+
+    res.status(201).json(result);
+  }
+
   static async removeGroup(req, res) {
     const isRemoved = await GroupService.removeGroup(req);
+
+    if (isRemoved) {
+      res.status(200).json("Done");
+    } else {
+      res.status(404).json({
+        type: "Error",
+        message: `Group with id:${req.params.id} not found`,
+      });
+    }
+  }
+
+  static async removeUserFromGroup(req, res) {
+    const isRemoved = await GroupService.removeUserFromGroup(req);
 
     if (isRemoved) {
       res.status(200).json("Done");
