@@ -1,9 +1,9 @@
-import { DataTypes, Model } from "sequelize";
+import Sequelize from "sequelize";
 import { GroupModel } from "./group.model";
 import { UserModel } from "./user.model";
 import { sequelize } from "../config/database";
 
-export class UserAndGroupModel extends Model {}
+export class UserAndGroupModel extends Sequelize.Model {}
 
 export default function () {
   UserAndGroupModel.init(

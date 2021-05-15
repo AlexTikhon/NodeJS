@@ -1,7 +1,7 @@
 import { UserModel } from "../models/user.model.mjs";
-import { GroupModel } from "../models/group.modeluser.model.mjs";
+import { GroupModel } from "../models/group.model.mjs";
 import { Group } from "../types/group.type.mjs";
-import { UserAndGroupModel } from "../models/group.modeluser.model.mjs";
+import { UserAndGroupModel } from "../models/user-and-group.model.mjs";
 export class GroupService {
   constructor() {}
 
