@@ -1,24 +1,52 @@
-import express from 'express';
+import express from "express";
 
-import { ROUTES } from '../config/routes.config.mjs';
-import { validatorEntity } from '../validation/user.validation.mjs';
-import { UserController } from '../loaders/controller/user.controller.mjs';
+import { USER_ROUTES, GROUP_ROUTES } from "../config/routes.config.mjs";
+import { validatorEntity } from "../validation/user.validation.mjs";
+import { UserController } from "../loaders/controller/user.controller.mjs";
+import { GroupController } from "../loaders/controller/group.controller.mjs";
 
 export const router = express.Router();
 
-router.get('/', (_, res) => {
-    res.send('<div><h1>Hi there</h1></div>');
+router.get("/", (_, res) => {
+  res.send("<div><h1>Hi there</h1></div>");
 });
 
-router.get(ROUTES.GET_ALL, UserController.getAllUsers);
+// user path
 
-router.get(ROUTES.GET_USER, UserController.getUserByID);
+router.get(USER_ROUTES.GET_ALL, UserController.getAllUsers);
 
-router.post(ROUTES.CREATE_USER, validatorEntity.validation, UserController.createUser);
+router.get(USER_ROUTES.GET_USER, UserController.getUserByID);
 
-router.put(ROUTES.UPDATE_USER, validatorEntity.validation, UserController.updateUser);
+router.post(
+  USER_ROUTES.CREATE_USER,
+  validatorEntity.validation,
+  UserController.createUser
+);
 
-router.delete(ROUTES.REMOVE_USER, UserController.removeUser);
+router.put(
+  USER_ROUTES.UPDATE_USER,
+  validatorEntity.validation,
+  UserController.updateUser
+);
 
-router.get(ROUTES.GET_SUGGESTED_USERS, UserController.getAutoSuggestUsers);
+router.delete(
+  USER_ROUTES.REMOVE_USER,
+  UserController.removeUser,
+  GroupController.removeUserFromGroup
+);
 
+router.get(USER_ROUTES.GET_SUGGESTED_USERS, UserController.getAutoSuggestUsers);
+
+// group path
+
+router.get(GROUP_ROUTES.GET_ALL, GroupController.getAllGroups);
+
+router.get(GROUP_ROUTES.GET_GROUP, GroupController.getGroupByID);
+
+router.post(GROUP_ROUTES.CREATE_GROUP, GroupController.createGroup);
+
+router.post(GROUP_ROUTES.ADD_USER_TO_GROUP, GroupController.addUserToGroup);
+
+router.put(GROUP_ROUTES.UPDATE_GROUP, GroupController.updateGroup);
+
+router.delete(GROUP_ROUTES.REMOVE_GROUP, GroupController.removeGroup);

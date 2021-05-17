@@ -3,7 +3,6 @@ import validator from 'express-joi-validation';
 class ValidationClass {
     constructor () {
         this.schema = Joi.object({
-            id: Joi.string(),
             login: Joi.string().required(),
             password: Joi.string().regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{0,}$/).required(),
             age: Joi.number().min(4).max(130).required()
