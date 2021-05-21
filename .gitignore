@@ -4,4 +4,5 @@
 #nodejs and client resources
 node_modules
 bower_components
+error.log
 
