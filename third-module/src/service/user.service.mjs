@@ -50,7 +50,7 @@ export class UserService {
         return null;
       }
 
-      const token = AuthService.createToken(login, password);
+      const token = AuthService.createToken(login);
       return token;
     } catch (err) {
       throw new Error(err);

@@ -24,8 +24,7 @@ export class AuthController {
   }
 
   static async authenticate(req, res, next) {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
+    const token = req.headers["authorization"];
 
     if (!token) {
       res.status(401).json({
