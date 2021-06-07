@@ -15,3 +15,7 @@ export const GROUP_ROUTES = {
   UPDATE_GROUP: "/update-group/:id",
   REMOVE_GROUP: "/remove-group/:id",
 };
+
+export const AUTH_ROUTES = {
+  LOGIN: "/login",
+};
