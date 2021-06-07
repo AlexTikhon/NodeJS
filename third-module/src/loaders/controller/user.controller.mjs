@@ -1,5 +1,5 @@
 import { UserService } from "../../service/user.service.mjs";
-import { ErrorMethodLogger } from "../../middlewares/logger.mjs";
+// import { ErrorMethodLogger } from "../../middlewares/logger.mjs";
 
 const compareUsersByLogin = (a, b) => {
   if (a.login.toLowerCase() > b.login.toLowerCase()) {
@@ -11,7 +11,7 @@ const compareUsersByLogin = (a, b) => {
   return 0;
 };
 export class UserController {
-  @ErrorMethodLogger()
+  // @ErrorMethodLogger()
   static async getAutoSuggestUsers(req, res) {
     const { loginSubstring, limit } = req.query;
     const userLogins = await UserService.getAutoSuggestUsers(loginSubstring);
@@ -25,7 +25,7 @@ export class UserController {
     return suggestedUsers;
   }
 
-  @ErrorMethodLogger()
+  // @ErrorMethodLogger()
   static async getAllUsers(_, res) {
     const users = await UserService.getAllUsers();
 
@@ -33,7 +33,7 @@ export class UserController {
     return users;
   }
 
-  @ErrorMethodLogger()
+  // @ErrorMethodLogger()
   static async getUserByID(req, res) {
     const user = await UserService.getUserByID(req);
 
@@ -47,7 +47,7 @@ export class UserController {
     }
   }
 
-  @ErrorMethodLogger()
+  // @ErrorMethodLogger()
   static async createUser(req, res) {
     const user = await UserService.createUser(req);
 
@@ -55,7 +55,7 @@ export class UserController {
     return user;
   }
 
-  @ErrorMethodLogger()
+  // @ErrorMethodLogger()
   static async removeUser(req, res) {
     const removedUser = await UserService.removeUser(req);
 
@@ -70,7 +70,7 @@ export class UserController {
     return removedUser;
   }
 
-  @ErrorMethodLogger()
+  // @ErrorMethodLogger()
   static async updateUser(req, res) {
     const updatedUser = await UserService.updateUser(req);
 
