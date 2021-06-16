@@ -1,6 +1,7 @@
 import express from "express";
+import cors from "cors";
 
-import { ENV_CONFIG } from "../config/env.config";
+import { ENV_CONFIG } from "../config/env.config.mjs";
 import { router } from "../router/routes.mjs";
 import { validatorEntity } from "../validation/user.validation.mjs";
 import { logger } from "../middlewares/logger.mjs";
@@ -9,6 +10,7 @@ import { errorMiddleware } from "../middlewares/error.middleware.mjs";
 
 export function initExpress() {
   const app = express();
+  app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
   app.use(loggerMiddleware);
