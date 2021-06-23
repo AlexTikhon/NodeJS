@@ -1,7 +1,7 @@
 import { GroupService } from "../../service/group.service.mjs";
-import { ErrorMethodLogger } from "../../middlewares/logger.mjs";
+// import { ErrorMethodLogger } from "../../middlewares/logger.mjs";
 export class GroupController {
-  @ErrorMethodLogger()
+  // @ErrorMethodLogger()
   static async getAllGroups(_, res) {
     const groups = await GroupService.getAllGroups();
 
@@ -9,7 +9,7 @@ export class GroupController {
     return groups;
   }
 
-  @ErrorMethodLogger()
+  // @ErrorMethodLogger()
   static async getGroupByID(req, res) {
     const group = await GroupService.getGroupByID(req);
 
@@ -23,7 +23,7 @@ export class GroupController {
     }
   }
 
-  @ErrorMethodLogger()
+  // @ErrorMethodLogger()
   static async createGroup(req, res) {
     const group = await GroupService.createGroup(req);
 
@@ -31,14 +31,14 @@ export class GroupController {
     return group;
   }
 
-  @ErrorMethodLogger()
+  // @ErrorMethodLogger()
   static async addUserToGroup(req, res) {
     const result = await GroupService.addUserToGroup(req);
 
     res.status(201).json(result);
   }
 
-  @ErrorMethodLogger()
+  // @ErrorMethodLogger()
   static async removeGroup(req, res) {
     const isRemoved = await GroupService.removeGroup(req);
 
@@ -52,7 +52,7 @@ export class GroupController {
     }
   }
 
-  @ErrorMethodLogger()
+  // @ErrorMethodLogger()
   static async removeUserFromGroup(req, res) {
     const isRemoved = await GroupService.removeUserFromGroup(req);
 
@@ -66,7 +66,7 @@ export class GroupController {
     }
   }
 
-  @ErrorMethodLogger()
+  // @ErrorMethodLogger()
   static async updateGroup(req, res) {
     const updatedGroup = await GroupService.updateGroup(req);
 
