@@ -5,6 +5,7 @@
   "main": "index.mjs",
   "scripts": {
     "start": "nodemon --experimental-modules src/app.mjs",
+    "test": "jest",
     "lint": "eslint --ext .mjs src/controller/ src/routes/ src/app.mjs"
   },
   "type": "module",
@@ -20,6 +21,7 @@
     "@babel/node": "^7.13.10",
     "@babel/plugin-proposal-decorators": "^7.13.15",
     "@babel/preset-env": "^7.13.10",
+    "@types/jest": "^26.0.23",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.23.0",
     "express": "^4.17.1",
@@ -28,6 +30,9 @@
     "crypto": "^1.0.1",
     "jsonwebtoken": "^8.5.1",
     "joi": "^17.4.0",
+    "jest": "^27.0.3",
+    "superagent": "^6.1.0",
+    "supertest": "^6.1.3",
     "mariadb": "^2.5.3",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.7",
